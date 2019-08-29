@@ -126,25 +126,29 @@ if DoesEntityExist(partID) then
 							TriggerServerEvent('esx_civlife_illegalchop:success', payout)
 							door1gone = false
 							door1delivered = true
-							disablecontrols = false
+							disablecontrols = fals
+							exports['mythic_notify']:SendAlert('success', 'Part Successfully Chopped')
 						end
 						if door2gone then
 							TriggerServerEvent('esx_civlife_illegalchop:success', payout)
 							door2gone = false
 							door2delivered = true
 							disablecontrols = false
+							exports['mythic_notify']:SendAlert('success', 'Part Successfully Chopped')
 						end
 						if door3gone then
 							TriggerServerEvent('esx_civlife_illegalchop:success', payout)
 							door3gone = false
 							door3delivered = true
 							disablecontrols = false
+							exports['mythic_notify']:SendAlert('success', 'Part Successfully Chopped')
 						end
 						if door4gone then
 							TriggerServerEvent('esx_civlife_illegalchop:success', payout)
 							door4gone = false
 							door4delivered = true
 							disablecontrols = false
+							exports['mythic_notify']:SendAlert('success', 'Part Successfully Chopped')
 						end
 				end
 			end
@@ -200,6 +204,7 @@ if DoesEntityExist(partID) then
 							door5delivered = true
 							disablecontrols = false
 							disablecontrols = false
+							exports['mythic_notify']:SendAlert('success', 'Part Successfully Chopped')
 						end
 						if door6gone then
 							TriggerServerEvent('esx_civlife_illegalchop:success', payout)
@@ -207,6 +212,7 @@ if DoesEntityExist(partID) then
 							disablecontrols = false
 							door6delivered = true
 							disablecontrols = false
+							exports['mythic_notify']:SendAlert('success', 'Part Successfully Chopped')
 						end
 						if door7gone then
 							TriggerServerEvent('esx_civlife_illegalchop:success', payout)
@@ -214,6 +220,7 @@ if DoesEntityExist(partID) then
 							disablecontrols = false
 							door7delivered = true
 							disablecontrols = false
+							exports['mythic_notify']:SendAlert('success', 'Part Successfully Chopped')
 						end
 				end
 			end
@@ -566,6 +573,7 @@ TriggerServerEvent('esx_civlife_illegalchop:success', math.random(30,100))
 local vehchopping = GetClosestVehicle(ChopCarLocation[1]["x"], ChopCarLocation[1]["y"], ChopCarLocation[1]["z"], 4.001, 0, 70)
 chopstarted = false
 DeleteEntity(vehchopping)
+exports['mythic_notify']:SendAlert('success', 'Sucessfully Chopped Entire Vehicle')
 end
 
 function tofaraway()
