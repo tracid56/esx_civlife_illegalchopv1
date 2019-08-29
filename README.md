@@ -24,4 +24,4 @@ These Addons/Plugins are required to be running on your server in order for this
 | Name | Download Link |
 | ------ | ------ |
 | mythic_notify | https://github.com/mythicrp/mythic_notify |
-| t0sic_loadingbar | https://github.com/t0sic/t0sic_loadingbar |
+| mythic_progbar | https://github.com/mythicrp/mythic_progbar |
