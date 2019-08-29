@@ -115,7 +115,7 @@ if DoesEntityExist(partID) then
 		else
 			local PedPosition = GetEntityCoords(PlayerPedId())
 			local DistanceCheck = GetDistanceBetweenCoords(PedPosition, ChopCarLocation[2]["x"], ChopCarLocation[2]["y"], ChopCarLocation[2]["z"], true)
-			Draw3DText2(ChopCarLocation[2]["x"], ChopCarLocation[2]["y"], ChopCarLocation[2]["z"] - 0.1, tostring("~w~~g~[E]~w~ Deliver Part"))
+			Draw3DText2(ChopCarLocation[2]["x"], ChopCarLocation[2]["y"], ChopCarLocation[2]["z"] - 0.1, tostring("~w~~g~[E]~w~ Teslimat Alanı"))
 			if DistanceCheck <= 2.0 then
 				if IsControlJustPressed(0, 38) then
 					disablecontrols = true
@@ -127,28 +127,28 @@ if DoesEntityExist(partID) then
 							door1gone = false
 							door1delivered = true
 							disablecontrols = false
-							exports['mythic_notify']:SendAlert('success', 'Part Successfully Chopped')
+							exports['mythic_notify']:SendAlert('success', 'Parça başarılı bir şekilde söküldü')
 						end
 						if door2gone then
 							TriggerServerEvent('esx_civlife_illegalchop:success', payout)
 							door2gone = false
 							door2delivered = true
 							disablecontrols = false
-							exports['mythic_notify']:SendAlert('success', 'Part Successfully Chopped')
+							exports['mythic_notify']:SendAlert('success', 'Parça başarılı bir şekilde söküldü')
 						end
 						if door3gone then
 							TriggerServerEvent('esx_civlife_illegalchop:success', payout)
 							door3gone = false
 							door3delivered = true
 							disablecontrols = false
-							exports['mythic_notify']:SendAlert('success', 'Part Successfully Chopped')
+							exports['mythic_notify']:SendAlert('success', 'Parça başarılı bir şekilde söküldü')
 						end
 						if door4gone then
 							TriggerServerEvent('esx_civlife_illegalchop:success', payout)
 							door4gone = false
 							door4delivered = true
 							disablecontrols = false
-							exports['mythic_notify']:SendAlert('success', 'Part Successfully Chopped')
+							exports['mythic_notify']:SendAlert('success', 'Parça başarılı bir şekilde söküldü')
 						end
 				end
 			end
@@ -191,7 +191,7 @@ if DoesEntityExist(partID) then
 		else
 			local PedPosition = GetEntityCoords(PlayerPedId())
 			local DistanceCheck = GetDistanceBetweenCoords(PedPosition, ChopCarLocation[2]["x"], ChopCarLocation[2]["y"], ChopCarLocation[2]["z"], true)
-			Draw3DText2(ChopCarLocation[2]["x"], ChopCarLocation[2]["y"], ChopCarLocation[2]["z"] - 0.1, tostring("~w~~g~[E]~w~ Deliver Part"))
+			Draw3DText2(ChopCarLocation[2]["x"], ChopCarLocation[2]["y"], ChopCarLocation[2]["z"] - 0.1, tostring("~w~~g~[E]~w~ Teslimat Alanı"))
 			if DistanceCheck <= 2.0 then
 				if IsControlJustPressed(0, 38) then
 					DeleteEntity(partID)
@@ -204,7 +204,7 @@ if DoesEntityExist(partID) then
 							door5delivered = true
 							disablecontrols = false
 							disablecontrols = false
-							exports['mythic_notify']:SendAlert('success', 'Part Successfully Chopped')
+							exports['mythic_notify']:SendAlert('success', 'Parça başarılı bir şekilde söküldü')
 						end
 						if door6gone then
 							TriggerServerEvent('esx_civlife_illegalchop:success', payout)
@@ -212,7 +212,7 @@ if DoesEntityExist(partID) then
 							disablecontrols = false
 							door6delivered = true
 							disablecontrols = false
-							exports['mythic_notify']:SendAlert('success', 'Part Successfully Chopped')
+							exports['mythic_notify']:SendAlert('success', 'Parça başarılı bir şekilde söküldü')
 						end
 						if door7gone then
 							TriggerServerEvent('esx_civlife_illegalchop:success', payout)
@@ -220,7 +220,7 @@ if DoesEntityExist(partID) then
 							disablecontrols = false
 							door7delivered = true
 							disablecontrols = false
-							exports['mythic_notify']:SendAlert('success', 'Part Successfully Chopped')
+							exports['mythic_notify']:SendAlert('success', 'Parça başarılı bir şekilde söküldü')
 						end
 				end
 			end
@@ -294,112 +294,213 @@ local veh = GetClosestVehicle(ChopCarLocation[1]["x"], ChopCarLocation[1]["y"], 
 	if chopdoor1 then
 		SetVehicleDoorOpen(veh, 0, false, false)
 		TaskStartScenarioInPlace(plyPed, "WORLD_HUMAN_WELDING", 0, true)
-		exports["t0sic_loadingbar"]:StartDelayedFunction("Taking off Door...", 10000, function()
-		SetVehicleDoorBroken(veh, 0, true)
-		ClearPedTasksImmediately(plyPed)
-		chopdoor1 = false
-		door1gone = true
-		disablecontrols = false
-			local PackageObject = CreateObject(GetHashKey("prop_car_door_01"), CarParts[1]["x"], CarParts[1]["y"], CarParts[1]["z"], true)
+		TriggerEvent("mythic_progbar:client:progress", {
+			name = "unique_action_name",
+			duration = 10000,
+			label = "Kapı Sökülüyor...",
+			useWhileDead = false,
+			canCancel = false,
+			controlDisables = {
+				disableMovement = true,
+				disableCarMovement = true,
+				disableMouse = false,
+				disableCombat = true,
+			}
+			}, function(status)
+			if not status then
+				SetVehicleDoorBroken(veh, 0, true)
+				ClearPedTasksImmediately(plyPed)
+				chopdoor1 = false
+				door1gone = true
+				disablecontrols = false
+				local PackageObject = CreateObject(GetHashKey("prop_car_door_01"), CarParts[1]["x"], CarParts[1]["y"], CarParts[1]["z"], true)
 				SetEntityCollision(PackageObject, false, false)
 				PlaceObjectOnGroundProperly(PackageObject)
 				Citizen.Wait(1000)
 				CarryingPart(PackageObject)
-			end)
+			end
+		end)
+
+
 	end
 	if chopdoor2 then
 		SetVehicleDoorOpen(veh, 1, false, false)
 		TaskStartScenarioInPlace(plyPed, "WORLD_HUMAN_WELDING", 0, true)
-		exports["t0sic_loadingbar"]:StartDelayedFunction("Taking off Door...", 10000, function()
-		SetVehicleDoorBroken(veh, 1, true)
-		ClearPedTasksImmediately(plyPed)
-		chopdoor2 = false
-		door2gone = true
-		disablecontrols = false
-			local PackageObject = CreateObject(GetHashKey("prop_car_door_01"), CarParts[2]["x"], CarParts[2]["y"], CarParts[2]["z"], true)
-			SetEntityCollision(PackageObject, false, false)
+		TriggerEvent("mythic_progbar:client:progress", {
+			name = "unique_action_name",
+			duration = 10000,
+			label = "Kapı Sökülüyor...",
+			useWhileDead = false,
+			canCancel = false,
+			controlDisables = {
+				disableMovement = true,
+				disableCarMovement = true,
+				disableMouse = false,
+				disableCombat = true,
+			}
+			}, function(status)
+			if not status then
+				SetVehicleDoorBroken(veh, 1, true)
+				ClearPedTasksImmediately(plyPed)
+				chopdoor2 = false
+				door2gone = true
+				disablecontrols = false
+				local PackageObject = CreateObject(GetHashKey("prop_car_door_01"), CarParts[2]["x"], CarParts[2]["y"], CarParts[2]["z"], true)
+				SetEntityCollision(PackageObject, false, false)
 				PlaceObjectOnGroundProperly(PackageObject)
 				Citizen.Wait(1000)
 				CarryingPart(PackageObject)
-			end)
+			end
+		end)
 	 end
 	 if chopdoor3 then
 		SetVehicleDoorOpen(veh, 2, false, false)
 		TaskStartScenarioInPlace(plyPed, "WORLD_HUMAN_WELDING", 0, true)
-		exports["t0sic_loadingbar"]:StartDelayedFunction("Taking off Door...", 10000, function()
-		SetVehicleDoorBroken(veh, 2, true)
-		ClearPedTasksImmediately(plyPed)
-		chopdoor3 = false
-		door3gone = true
-		disablecontrols = false
-			local PackageObject = CreateObject(GetHashKey("prop_car_door_01"), CarParts[3]["x"], CarParts[3]["y"], CarParts[3]["z"], true)
-			SetEntityCollision(PackageObject, false, false)
+		TriggerEvent("mythic_progbar:client:progress", {
+			name = "unique_action_name",
+			duration = 10000,
+			label = "Kapı Sökülüyor...",
+			useWhileDead = false,
+			canCancel = false,
+			controlDisables = {
+				disableMovement = true,
+				disableCarMovement = true,
+				disableMouse = false,
+				disableCombat = true,
+			}
+			}, function(status)
+			if not status then
+				SetVehicleDoorBroken(veh, 2, true)
+				ClearPedTasksImmediately(plyPed)
+				chopdoor3 = false
+				door3gone = true
+				disablecontrols = false
+				local PackageObject = CreateObject(GetHashKey("prop_car_door_01"), CarParts[3]["x"], CarParts[3]["y"], CarParts[3]["z"], true)
+				SetEntityCollision(PackageObject, false, false)
 				PlaceObjectOnGroundProperly(PackageObject)
 				Citizen.Wait(1000)
 				CarryingPart(PackageObject)
-			end)
+			end
+		end)
 	 end
 	 if chopdoor4 then
 		SetVehicleDoorOpen(veh, 3, false, false)
 		TaskStartScenarioInPlace(plyPed, "WORLD_HUMAN_WELDING", 0, true)
-		exports["t0sic_loadingbar"]:StartDelayedFunction("Taking off Door...", 10000, function()
-		SetVehicleDoorBroken(veh, 3, true)
-		ClearPedTasksImmediately(plyPed)
-		chopdoor4 = false
-		door4gone = true
-		disablecontrols = false
-			local PackageObject = CreateObject(GetHashKey("prop_car_door_01"), CarParts[4]["x"], CarParts[4]["y"], CarParts[4]["z"], true)
-			SetEntityCollision(PackageObject, false, false)
+		TriggerEvent("mythic_progbar:client:progress", {
+			name = "unique_action_name",
+			duration = 10000,
+			label = "Kapı Sökülüyor...",
+			useWhileDead = false,
+			canCancel = false,
+			controlDisables = {
+				disableMovement = true,
+				disableCarMovement = true,
+				disableMouse = false,
+				disableCombat = true,
+			}
+			}, function(status)
+			if not status then
+				SetVehicleDoorBroken(veh, 3, true)
+				ClearPedTasksImmediately(plyPed)
+				chopdoor4 = false
+				door4gone = true
+				disablecontrols = false
+				local PackageObject = CreateObject(GetHashKey("prop_car_door_01"), CarParts[4]["x"], CarParts[4]["y"], CarParts[4]["z"], true)
+				SetEntityCollision(PackageObject, false, false)
 				PlaceObjectOnGroundProperly(PackageObject)
 				Citizen.Wait(1000)
 				CarryingPart(PackageObject)
-			end)
+			end
+		end) 
 	end
 	if chopdoor5 then
 		SetVehicleDoorOpen(veh, 4, false, false)
 		TaskStartScenarioInPlace(plyPed, "PROP_HUMAN_BUM_BIN", 0, true)
-		exports["t0sic_loadingbar"]:StartDelayedFunction("Taking off Hood...", 10000, function()
-		SetVehicleDoorBroken(veh, 4, true)
-		ClearPedTasksImmediately(plyPed)
-		chopdoor5 = false
-		door5gone = true
-		disablecontrols = false
-			local PackageObject = CreateObject(GetHashKey("prop_cs_cardbox_01"), CarParts[5]["x"], CarParts[5]["y"], CarParts[5]["z"], true)
-			SetEntityCollision(PackageObject, false, false)
+
+		TriggerEvent("mythic_progbar:client:progress", {
+			name = "unique_action_name",
+			duration = 10000,
+			label = "Kaput Sökülüyor...",
+			useWhileDead = false,
+			canCancel = false,
+			controlDisables = {
+				disableMovement = true,
+				disableCarMovement = true,
+				disableMouse = false,
+				disableCombat = true,
+			}
+			}, function(status)
+			if not status then
+				SetVehicleDoorBroken(veh, 4, true)
+				ClearPedTasksImmediately(plyPed)
+				chopdoor5 = false
+				door5gone = true
+				disablecontrols = false
+				local PackageObject = CreateObject(GetHashKey("prop_cs_cardbox_01"), CarParts[5]["x"], CarParts[5]["y"], CarParts[5]["z"], true)
+				SetEntityCollision(PackageObject, false, false)
 				PlaceObjectOnGroundProperly(PackageObject)
 				Citizen.Wait(1000)
 				CarryingPartHood(PackageObject)
-			end)
+			end
+		end) 
 	 end
 	if chopdoor6 then
 		SetVehicleDoorOpen(veh, 5, false, false)
 		TaskStartScenarioInPlace(plyPed, "PROP_HUMAN_BUM_BIN", 0, true)
-		exports["t0sic_loadingbar"]:StartDelayedFunction("Taking off Hood...", 10000, function()
-		SetVehicleDoorBroken(veh, 5, true)
-		ClearPedTasksImmediately(plyPed)
-		chopdoor6 = false
-		door6gone = true
-		disablecontrols = false
-			local PackageObject = CreateObject(GetHashKey("prop_cs_cardbox_01"), CarParts[6]["x"], CarParts[6]["y"], CarParts[6]["z"], true)
-			SetEntityCollision(PackageObject, false, false)
+		TriggerEvent("mythic_progbar:client:progress", {
+			name = "unique_action_name",
+			duration = 10000,
+			label = "Kaput Sökülüyor...",
+			useWhileDead = false,
+			canCancel = false,
+			controlDisables = {
+				disableMovement = true,
+				disableCarMovement = true,
+				disableMouse = false,
+				disableCombat = true,
+			}
+			}, function(status)
+			if not status then
+				SetVehicleDoorBroken(veh, 5, true)
+				ClearPedTasksImmediately(plyPed)
+				chopdoor6 = false
+				door6gone = true
+				disablecontrols = false
+				local PackageObject = CreateObject(GetHashKey("prop_cs_cardbox_01"), CarParts[6]["x"], CarParts[6]["y"], CarParts[6]["z"], true)
+				SetEntityCollision(PackageObject, false, false)
 				PlaceObjectOnGroundProperly(PackageObject)
 				Citizen.Wait(1000)
 				CarryingPartHood(PackageObject)
-			end)
+			end
+		end) 
 	 end
 	 if chopdoor7 then
 		TaskStartScenarioInPlace(plyPed, "PROP_HUMAN_BUM_BIN", 0, true)
-		exports["t0sic_loadingbar"]:StartDelayedFunction("Taking Radio From Vehicle...", 10000, function()
-		ClearPedTasksImmediately(plyPed)
-		chopdoor7 = false
-		door7gone = true
-		disablecontrols = false
-			local PackageObject = CreateObject(GetHashKey("prop_cs_cardbox_01"), CarParts[1]["x"], CarParts[1]["y"] + 0.1, CarParts[1]["z"], true)
-			SetEntityCollision(PackageObject, false, false)
+		TriggerEvent("mythic_progbar:client:progress", {
+			name = "unique_action_name",
+			duration = 10000,
+			label = "Aracın içinden radyo sökülüyor...",
+			useWhileDead = false,
+			canCancel = false,
+			controlDisables = {
+				disableMovement = true,
+				disableCarMovement = true,
+				disableMouse = false,
+				disableCombat = true,
+			}
+			}, function(status)
+			if not status then
+				ClearPedTasksImmediately(plyPed)
+				chopdoor7 = false
+				door7gone = true
+				disablecontrols = false
+				local PackageObject = CreateObject(GetHashKey("prop_cs_cardbox_01"), CarParts[1]["x"], CarParts[1]["y"] + 0.1, CarParts[1]["z"], true)
+				SetEntityCollision(PackageObject, false, false)
 				PlaceObjectOnGroundProperly(PackageObject)
 				Citizen.Wait(1000)
 				CarryingPartHood(PackageObject)
-			end)
+			end
+		end) 
 	 end
 
 end
@@ -412,7 +513,7 @@ Citizen.CreateThread(function ()
 				DrawMarker(27,CarParts[1]["x"], CarParts[1]["y"], CarParts[1]["z"] - 1.0, 0, 0, 0, 0, 0, 0, 0.5, 0.5, 0.5, 0, 157, 0, 155, 0, 0, 2, 0, 0, 0, 0)
 				if GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(-1)), CarParts[1]["x"], CarParts[1]["y"], CarParts[1]["z"], true ) < 1.2 and IsPedStill(GetPlayerPed(-1)) then 
 					if GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(-1)), CarParts[1]["x"], CarParts[1]["y"], CarParts[1]["z"], true ) < 1.2 and not chopdoor1 then
-					 Draw3DText2(CarParts[1]["x"], CarParts[1]["y"], CarParts[1]["z"] - 0.1, tostring("~w~~g~[E]~w~ Chop Door"))
+					 Draw3DText2(CarParts[1]["x"], CarParts[1]["y"], CarParts[1]["z"] - 0.1, tostring("~w~~g~[E]~w~ Kapıyı Sök"))
 					end 
 				
 					if(IsControlJustPressed(1, Keys["E"])) then
@@ -426,7 +527,7 @@ Citizen.CreateThread(function ()
 				DrawMarker(27,CarParts[2]["x"], CarParts[2]["y"], CarParts[2]["z"] - 0.8, 0, 0, 0, 0, 0, 0, 0.5, 0.5, 0.5, 0, 157, 0, 155, 0, 0, 2, 0, 0, 0, 0)
 				if GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(-1)), CarParts[2]["x"], CarParts[2]["y"], CarParts[2]["z"], true ) < 1.2 and IsPedStill(GetPlayerPed(-1)) then 
 					if GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(-1)), CarParts[2]["x"], CarParts[2]["y"], CarParts[2]["z"], true ) < 1.2 and not chopdoor2 then
-					 Draw3DText2(CarParts[2]["x"], CarParts[2]["y"], CarParts[2]["z"] - 0.1, tostring("~w~~g~[E]~w~ Chop Door"))
+					 Draw3DText2(CarParts[2]["x"], CarParts[2]["y"], CarParts[2]["z"] - 0.1, tostring("~w~~g~[E]~w~ Kapıyı Sök"))
 					end 
 				
 					if(IsControlJustPressed(1, Keys["E"])) then
@@ -440,7 +541,7 @@ Citizen.CreateThread(function ()
 				DrawMarker(27,CarParts[3]["x"], CarParts[3]["y"], CarParts[3]["z"] - 0.8, 0, 0, 0, 0, 0, 0, 0.5, 0.5, 0.5, 0, 157, 0, 155, 0, 0, 2, 0, 0, 0, 0)
 				if GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(-1)), CarParts[3]["x"], CarParts[3]["y"], CarParts[3]["z"], true ) < 1.2 and IsPedStill(GetPlayerPed(-1)) then 
 					if GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(-1)), CarParts[3]["x"], CarParts[3]["y"], CarParts[3]["z"], true ) < 1.2 and not chopdoor3 then
-					 Draw3DText2(CarParts[3]["x"], CarParts[3]["y"], CarParts[3]["z"] - 0.1, tostring("~w~~g~[E]~w~ Chop Door"))
+					 Draw3DText2(CarParts[3]["x"], CarParts[3]["y"], CarParts[3]["z"] - 0.1, tostring("~w~~g~[E]~w~ Kapıyı Sök"))
 					end 
 				
 					if(IsControlJustPressed(1, Keys["E"])) then
@@ -454,7 +555,7 @@ Citizen.CreateThread(function ()
 				DrawMarker(27,CarParts[4]["x"], CarParts[4]["y"], CarParts[4]["z"] - 0.8, 0, 0, 0, 0, 0, 0, 0.5, 0.5, 0.5, 0, 157, 0, 155, 0, 0, 2, 0, 0, 0, 0)
 				if GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(-1)), CarParts[4]["x"], CarParts[4]["y"], CarParts[4]["z"], true ) < 1.2 and IsPedStill(GetPlayerPed(-1)) then 
 					if GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(-1)), CarParts[4]["x"], CarParts[4]["y"], CarParts[4]["z"], true ) < 1.2 and not chopdoor4 then
-					 Draw3DText2(CarParts[4]["x"], CarParts[4]["y"], CarParts[4]["z"] - 0.1, tostring("~w~~g~[E]~w~ Chop Door"))
+					 Draw3DText2(CarParts[4]["x"], CarParts[4]["y"], CarParts[4]["z"] - 0.1, tostring("~w~~g~[E]~w~ Kapıyı Sök"))
 					end 
 				
 					if(IsControlJustPressed(1, Keys["E"])) then
@@ -468,7 +569,7 @@ Citizen.CreateThread(function ()
 				DrawMarker(27,CarParts[5]["x"], CarParts[5]["y"], CarParts[5]["z"] - 0.8, 0, 0, 0, 0, 0, 0, 0.5, 0.5, 0.5, 0, 157, 0, 155, 0, 0, 2, 0, 0, 0, 0)
 				if GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(-1)), CarParts[5]["x"], CarParts[5]["y"], CarParts[5]["z"], true ) < 1.2 and IsPedStill(GetPlayerPed(-1)) then 
 					if GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(-1)), CarParts[5]["x"], CarParts[5]["y"], CarParts[5]["z"], true ) < 1.2 and not chopdoor5 then
-					 Draw3DText2(CarParts[5]["x"], CarParts[5]["y"], CarParts[5]["z"] - 0.1, tostring("~w~~g~[E]~w~ Chop Hood"))
+					 Draw3DText2(CarParts[5]["x"], CarParts[5]["y"], CarParts[5]["z"] - 0.1, tostring("~w~~g~[E]~w~ Kaputu Sök"))
 					end 
 				
 					if(IsControlJustPressed(1, Keys["E"])) then
@@ -482,7 +583,7 @@ Citizen.CreateThread(function ()
 				DrawMarker(27,CarParts[6]["x"], CarParts[6]["y"], CarParts[6]["z"] - 0.8, 0, 0, 0, 0, 0, 0, 0.5, 0.5, 0.5, 0, 157, 0, 155, 0, 0, 2, 0, 0, 0, 0)
 				if GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(-1)), CarParts[6]["x"], CarParts[6]["y"], CarParts[6]["z"], true ) < 1.2 and IsPedStill(GetPlayerPed(-1)) then 
 					if GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(-1)), CarParts[6]["x"], CarParts[6]["y"], CarParts[6]["z"], true ) < 1.2 and not chopdoor6 then
-					 Draw3DText2(CarParts[6]["x"], CarParts[6]["y"], CarParts[6]["z"] - 0.1, tostring("~w~~g~[E]~w~ Chop Trunk"))
+					 Draw3DText2(CarParts[6]["x"], CarParts[6]["y"], CarParts[6]["z"] - 0.1, tostring("~w~~g~[E]~w~ Bagajı Sök"))
 					end 
 				
 					if(IsControlJustPressed(1, Keys["E"])) then
@@ -496,7 +597,7 @@ Citizen.CreateThread(function ()
 				DrawMarker(27,CarParts[1]["x"], CarParts[1]["y"], CarParts[1]["z"] - 0.8, 0, 0, 0, 0, 0, 0, 0.5, 0.5, 0.5, 0, 157, 0, 155, 0, 0, 2, 0, 0, 0, 0)
 				if GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(-1)), CarParts[1]["x"], CarParts[1]["y"], CarParts[1]["z"], true ) < 1.2 and IsPedStill(GetPlayerPed(-1)) then 
 					if GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(-1)), CarParts[1]["x"], CarParts[1]["y"], CarParts[1]["z"], true ) < 1.2 and not chopdoor7 then
-					 Draw3DText2(CarParts[1]["x"], CarParts[1]["y"], CarParts[1]["z"] - 0.1, tostring("~w~~g~[E]~w~ Take Radio"))
+					 Draw3DText2(CarParts[1]["x"], CarParts[1]["y"], CarParts[1]["z"] - 0.1, tostring("~w~~g~[E]~w~ Radyoyu Çıkar"))
 					end 
 				
 					if(IsControlJustPressed(1, Keys["E"])) then
@@ -510,7 +611,7 @@ Citizen.CreateThread(function ()
 				DrawMarker(27,ChopCarLocation[2]["x"], ChopCarLocation[2]["y"], ChopCarLocation[2]["z"] - 0.8, 0, 0, 0, 0, 0, 0, 0.5, 0.5, 0.5, 0, 157, 0, 155, 0, 0, 2, 0, 0, 0, 0)
 				if GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(-1)), ChopCarLocation[2]["x"], ChopCarLocation[2]["y"], ChopCarLocation[2]["z"], true ) < 1.2 and IsPedStill(GetPlayerPed(-1)) then 
 					if GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(-1)), ChopCarLocation[2]["x"], ChopCarLocation[2]["y"], ChopCarLocation[2]["z"], true ) < 1.2 and not chopdoor7 then
-					 Draw3DText2(ChopCarLocation[2]["x"], ChopCarLocation[2]["y"], ChopCarLocation[2]["z"] - 0.1, tostring("~w~~g~[E]~w~ Chop Entire Vehicle"))
+					 Draw3DText2(ChopCarLocation[2]["x"], ChopCarLocation[2]["y"], ChopCarLocation[2]["z"] - 0.1, tostring("~w~~g~[E]~w~ Aracı Parçala"))
 					end 
 				
 					if(IsControlJustPressed(1, Keys["E"])) then
@@ -534,7 +635,7 @@ Citizen.CreateThread(function ()
 				DrawMarker(20,ChopCarLocation[1]["x"], ChopCarLocation[1]["y"], ChopCarLocation[1]["z"], 0, 0, 0, 0, 0, 0, 0.5, 0.5, 0.5, 0, 157, 0, 155, 0, 0, 2, 0, 0, 0, 0)
 				if GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(-1)), ChopCarLocation[1]["x"], ChopCarLocation[1]["y"], ChopCarLocation[1]["z"], true ) < 1.2 then 
 					if GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(-1)), ChopCarLocation[1]["x"], ChopCarLocation[1]["y"], ChopCarLocation[1]["z"], true ) < 1.2 then
-					 Draw3DText2(ChopCarLocation[1]["x"], ChopCarLocation[1]["y"], ChopCarLocation[1]["z"] - 0.1, tostring("~w~~g~[E]~w~ Chop This Vehicle"))
+					 Draw3DText2(ChopCarLocation[1]["x"], ChopCarLocation[1]["y"], ChopCarLocation[1]["z"] - 0.1, tostring("~w~~g~[E]~w~ Bu Aracı Parçala"))
 					end 
 				
 					if(IsControlJustPressed(0, Keys["E"])) then
@@ -545,7 +646,7 @@ Citizen.CreateThread(function ()
 					clientcooldown = true
 					end
 					if clientcooldown and not chopstarted then
-						exports['mythic_notify']:SendAlert('error', 'There is currently a cooldown for you, You must wait longer before doing this again.')
+						exports['mythic_notify']:SendAlert('error', 'Şu anda sizin için bir bekleme süresi var. Bunu tekrar yapmadan önce daha uzun beklemelisiniz.')
 					end
 
 					end
@@ -573,14 +674,14 @@ TriggerServerEvent('esx_civlife_illegalchop:success', math.random(30,100))
 local vehchopping = GetClosestVehicle(ChopCarLocation[1]["x"], ChopCarLocation[1]["y"], ChopCarLocation[1]["z"], 4.001, 0, 70)
 chopstarted = false
 DeleteEntity(vehchopping)
-exports['mythic_notify']:SendAlert('success', 'Sucessfully Chopped Entire Vehicle')
+exports['mythic_notify']:SendAlert('success', 'Tüm araç başarılı bir şekilde parçalandı')
 end
 
 function tofaraway()
 local vehchopping = GetClosestVehicle(ChopCarLocation[1]["x"], ChopCarLocation[1]["y"], ChopCarLocation[1]["z"], 4.001, 0, 70)
 chopstarted = false
 DeleteEntity(vehchopping)
-exports['mythic_notify']:SendAlert('error', 'You moved to far away')
+exports['mythic_notify']:SendAlert('error', 'Buradan uzaklaş!')
 end
 
 
