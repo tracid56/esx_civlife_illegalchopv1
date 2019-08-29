@@ -126,7 +126,7 @@ if DoesEntityExist(partID) then
 							TriggerServerEvent('esx_civlife_illegalchop:success', payout)
 							door1gone = false
 							door1delivered = true
-							disablecontrols = fals
+							disablecontrols = false
 							exports['mythic_notify']:SendAlert('success', 'Part Successfully Chopped')
 						end
 						if door2gone then
