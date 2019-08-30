@@ -1,5 +1,9 @@
 TR Abdulkadir AKTAŞ
 
+### Yapılan değişiklikler
+Progressbar tasarımı değiştirildi ve Türkçe diline çevrildi.
+
+
 ### Required
 These Addons/Plugins are required to be running on your server in order for this script to work.
 
