@@ -127,28 +127,28 @@ if DoesEntityExist(partID) then
 							door1gone = false
 							door1delivered = true
 							disablecontrols = false
-							exports['mythic_notify']:SendAlert('success', 'Parça başarılı bir şekilde söküldü')
+							exports['mythic_notify']:SendAlert('success', 'Parça başarılı bir şekilde satıldı!')
 						end
 						if door2gone then
 							TriggerServerEvent('esx_civlife_illegalchop:success', payout)
 							door2gone = false
 							door2delivered = true
 							disablecontrols = false
-							exports['mythic_notify']:SendAlert('success', 'Parça başarılı bir şekilde söküldü')
+							exports['mythic_notify']:SendAlert('success', 'Parça başarılı bir şekilde satıldı!')
 						end
 						if door3gone then
 							TriggerServerEvent('esx_civlife_illegalchop:success', payout)
 							door3gone = false
 							door3delivered = true
 							disablecontrols = false
-							exports['mythic_notify']:SendAlert('success', 'Parça başarılı bir şekilde söküldü')
+							exports['mythic_notify']:SendAlert('success', 'Parça başarılı bir şekilde satıldı!')
 						end
 						if door4gone then
 							TriggerServerEvent('esx_civlife_illegalchop:success', payout)
 							door4gone = false
 							door4delivered = true
 							disablecontrols = false
-							exports['mythic_notify']:SendAlert('success', 'Parça başarılı bir şekilde söküldü')
+							exports['mythic_notify']:SendAlert('success', 'Parça başarılı bir şekilde satıldı!')
 						end
 				end
 			end
@@ -204,7 +204,7 @@ if DoesEntityExist(partID) then
 							door5delivered = true
 							disablecontrols = false
 							disablecontrols = false
-							exports['mythic_notify']:SendAlert('success', 'Parça başarılı bir şekilde söküldü')
+							exports['mythic_notify']:SendAlert('success', 'Parça başarılı bir şekilde satıldı!')
 						end
 						if door6gone then
 							TriggerServerEvent('esx_civlife_illegalchop:success', payout)
@@ -212,7 +212,7 @@ if DoesEntityExist(partID) then
 							disablecontrols = false
 							door6delivered = true
 							disablecontrols = false
-							exports['mythic_notify']:SendAlert('success', 'Parça başarılı bir şekilde söküldü')
+							exports['mythic_notify']:SendAlert('success', 'Parça başarılı bir şekilde satıldı!')
 						end
 						if door7gone then
 							TriggerServerEvent('esx_civlife_illegalchop:success', payout)
@@ -220,7 +220,7 @@ if DoesEntityExist(partID) then
 							disablecontrols = false
 							door7delivered = true
 							disablecontrols = false
-							exports['mythic_notify']:SendAlert('success', 'Parça başarılı bir şekilde söküldü')
+							exports['mythic_notify']:SendAlert('success', 'Parça başarılı bir şekilde satıldı!')
 						end
 				end
 			end
@@ -450,7 +450,7 @@ local veh = GetClosestVehicle(ChopCarLocation[1]["x"], ChopCarLocation[1]["y"], 
 		TriggerEvent("mythic_progbar:client:progress", {
 			name = "unique_action_name",
 			duration = 10000,
-			label = "Kaput Sökülüyor...",
+			label = "Bagaj Kapağı Sökülüyor...",
 			useWhileDead = false,
 			canCancel = false,
 			controlDisables = {
